@@ -1,0 +1,16 @@
+.ticker {
+  background-color: #0f1115;;
+  height: 100vh;
+  width: 100vw;
+  color: black;
+}
+
+.search-bar-container {
+  padding-top: 20vh;
+  width: 40%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px;
+}
