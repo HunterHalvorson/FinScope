@@ -3,14 +3,27 @@
   height: 100vh;
   width: 100vw;
   color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .search-bar-container {
-  padding-top: 20vh;
+  padding-top: 5vh;
   width: 40%;
-  margin: auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-width: 200px;
+}
+
+h1, p {
+  padding-bottom: 10px;
+  color: white;
+  text-align: center;
+}
+
+span {
+  color: #925cc4;
 }

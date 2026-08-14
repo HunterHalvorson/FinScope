@@ -10,9 +10,9 @@ import FilingDashboard from './pages/FilingDashboard.jsx';
 
 const router = createBrowserRouter([
   { path: '/', element: <App />, errorElement: <NotFoundPage /> },
-  { path: '/ticker', element: <TickerSearch />, errorElement: <NotFoundPage /> },
+  { path: '/ticker', element: <TickerSearch />, errorElement: <NotFoundPage />},
+  { path: '/ticker/:symbol', element: <FilingDashboard />, errorElement: <NotFoundPage />},
   { path: '/chat', element: <Chat />, errorElement: <NotFoundPage /> },
-  { path: '/filings', element: <FilingDashboard />, errorElement: <NotFoundPage /> },
   { path: '*', element: <NotFoundPage /> },
 ]);
 

@@ -7,5 +7,9 @@
   background-color: #efefef;
   background-color: rgba(146, 92, 196, 0.5);
   cursor: pointer;
+}
+
+.search-result a{
   color: white;
+  text-decoration: none;
 }

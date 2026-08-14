@@ -1,0 +1,15 @@
+.message-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#stop-icon {
+  color: red;
+  font-size: 7rem;
+  margin-bottom: 6%;
+}
