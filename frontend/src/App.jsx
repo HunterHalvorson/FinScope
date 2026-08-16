@@ -11,7 +11,7 @@ function App() {
           <ul>
             <li><Link to = "/">Home</Link></li>
             <li><Link to = "/ticker">Ticker</Link></li>
-            <li><Link to = "/filings">Filing Dashboard</Link></li>
+            <li><Link to = "/ticker/AAPL">Filing Dashboard</Link></li>
             <li><Link to = "/chat">Chat</Link></li>
           </ul>
         </nav>
