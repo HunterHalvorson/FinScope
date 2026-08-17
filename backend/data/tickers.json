@@ -1,0 +1,19 @@
+[
+  {"ticker": "NVDA",  "cik_str": 1045810, "title": "NVIDIA CORP",              "sector": "Technology"},
+  {"ticker": "AAPL",  "cik_str": 320193,  "title": "Apple Inc.",               "sector": "Technology"},
+  {"ticker": "MSFT",  "cik_str": 789019,  "title": "MICROSOFT CORP",           "sector": "Technology"},
+  {"ticker": "GOOGL", "cik_str": 1652044, "title": "Alphabet Inc.",            "sector": "Technology"},
+  {"ticker": "AMD",   "cik_str": 2488,    "title": "ADVANCED MICRO DEVICES INC","sector": "Technology"},
+
+  {"ticker": "WMT",   "cik_str": 104169,  "title": "Walmart Inc.",             "sector": "Consumer Staples"},
+  {"ticker": "KO",    "cik_str": 21344,   "title": "COCA COLA CO",             "sector": "Consumer Staples"},
+  {"ticker": "PG",    "cik_str": 80424,   "title": "PROCTER & GAMBLE Co",      "sector": "Consumer Staples"},
+  {"ticker": "COST",  "cik_str": 909832,  "title": "COSTCO WHOLESALE CORP /NEW","sector": "Consumer Staples"},
+  {"ticker": "PEP",   "cik_str": 77476,   "title": "PEPSICO INC",              "sector": "Consumer Staples"},
+
+  {"ticker": "BAC",   "cik_str": 70858,   "title": "BANK OF AMERICA CORP /DE/","sector": "Financials/Energy"},
+  {"ticker": "GS",    "cik_str": 886982,  "title": "GOLDMAN SACHS GROUP INC",  "sector": "Financials/Energy"},
+  {"ticker": "WFC",   "cik_str": 72971,   "title": "WELLS FARGO & COMPANY/MN","sector": "Financials/Energy"},
+  {"ticker": "CVX",   "cik_str": 93410,   "title": "CHEVRON CORP",             "sector": "Financials/Energy"},
+  {"ticker": "COP",   "cik_str": 1163165, "title": "CONOCOPHILLIPS",           "sector": "Financials/Energy"}
+]
