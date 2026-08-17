@@ -18,6 +18,20 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  position: relative;
+}
+
+.model-container-inner .esc{
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 15px;
+  background-color: rgba(246, 43, 43, 0.6);
+}
+
+.model-container-inner .esc:hover{
+  cursor: pointer;
+  background-color: rgba(246, 43, 43, 0.5);
 }
 
 .model-container-inner span{

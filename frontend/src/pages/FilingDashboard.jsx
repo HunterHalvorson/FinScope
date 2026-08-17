@@ -6,6 +6,7 @@ import '../pages/css/FilingDashboard.css'
 import LineChartComponent from '../components/LineChartComponent'
 import { CgAddR } from "react-icons/cg";
 import Modal from '../components/Modal'
+import ScatterChartComponenet from '../components/ScatterChartComponenet'
 
 function FilingDashboard() {
 
@@ -44,9 +45,12 @@ function FilingDashboard() {
   return (
     <>
       {modalActive && <Modal onClose={() => setModalActive(false)} filing = {selectedFiling}/>}
+      <h1>{matchingTickerData[0].name}</h1>
       <div style={{ width: '100%', height: 400 }}>
-        <h1>{matchingTickerData[0].name}</h1>
         <LineChartComponent matchingTickerData={matchingTickerData} />
+      </div>
+      <div style={{ width: '100%', height: 400 }}>
+        <ScatterChartComponenet matchingTickerData={matchingTickerData}/>
       </div>
       <div className="filing-list-container">
         {listData.map((filing) => (
