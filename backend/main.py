@@ -4,6 +4,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from helper_functions import load_and_return_ticker_data
+from services.edgar import fetch_filing_document
+from fastapi import HTTPException
+
 
 app = FastAPI()
 
@@ -37,3 +40,16 @@ def get_filings(ticker: str):
       filings.append({'form': form, 'filingDate': filing_date, 'accessionNumber': accession_no, 'primaryDocument': primary_doc})
 
   return filings
+
+
+@app.get('/filings/{ticker}/{accession}/text')
+def get_filing_text(ticker: str, accession: str, primary_document: str):
+    ticker_data = load_and_return_ticker_data(TICKERS, ticker)
+    cik = str(ticker_data['cik_str'])
+    
+    try:
+      raw_html = fetch_filing_document(cik, accession, primary_document)
+    except requests.RequestException as e:
+      raise HTTPException(status_code=502, detail=f"Failed to fetch filing from EDGAR: {e}")
+      
+    return {"raw_html": raw_html}
