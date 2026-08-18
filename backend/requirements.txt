@@ -3,3 +3,5 @@ uvicorn
 python-dotenv
 requests
 pydantic
+bs4
+sec-api
