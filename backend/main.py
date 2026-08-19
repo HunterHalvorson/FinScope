@@ -83,40 +83,6 @@ def get_filings(ticker: str):
     return filings
 
 
-@app.get('/filings/{ticker}/{accession}/text')
-def get_filing_text(
-    ticker: str,
-    accession: str,
-    primary_document: str
-):
-
-    ticker_data = load_and_return_ticker_data(TICKERS, ticker)
-
-    cik = str(ticker_data['cik_str'])
-
-    try:
-
-        raw_html = fetch_filing_document(
-            cik,
-            accession,
-            primary_document
-        )
-
-        sections = extract_sections_from_filing(raw_html)
-
-        return {
-            "sections": sections
-        }
-
-    except Exception as e:
-
-        print(f"Error fetching filing: {e}")
-
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
-        )
-
 @app.post('/filings/{ticker}/{accession}/injest')
 def injestion_pipeline(ticker: str, accession: str, primary_document: str):
     ticker_data = load_and_return_ticker_data(TICKERS, ticker)
