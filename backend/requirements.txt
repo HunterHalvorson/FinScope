@@ -3,5 +3,9 @@ uvicorn
 python-dotenv
 requests
 pydantic
-bs4
+beautifulsoup4
 sec-api
+langchain
+langchain-text-splitters
+sentence-transformers==3.4.1
+chromadb
