@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+*.dylib
+backend/.venv/
+backend/.venv/
