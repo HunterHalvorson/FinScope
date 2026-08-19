@@ -15,6 +15,10 @@ import chromadb
 
 app = FastAPI()
 
+# The client is basically your connection/interface to Chroma.
+chroma_client = chromadb.PersistentClient(path="./data/chroma")
+collection = chroma_client.get_or_create_collection(name = 'filings')
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['http://localhost:5173'],
@@ -29,6 +33,15 @@ print(f"API Key loaded: {os.environ.get('SEC_API_KEY')}")
 with open('./data/tickers.json') as f:
     TICKERS = json.load(f)
 
+
+# @app.get('/filings/search')
+# def search_filings(ticker: str, query: str):
+#     results = collection.query(
+#         query_texts=[query],
+#         where={"ticker": ticker},
+#         n_results=5
+#     )
+#     return results
 
 @app.get('/filings/{ticker}')
 def get_filings(ticker: str):
@@ -198,7 +211,32 @@ def injestion_pipeline(ticker: str, accession: str, primary_document: str):
 
         risk_factor_metadata.append(metadata)
 
-    # The client is basically your connection/interface to Chroma.
-    chroma_client = chromadb.Client()
-    collection = chroma_client.get_or_create_collection(name = 'filings')
-    
+
+    combined_chunks = mda_chunks + riskFactor_chunks
+    combined_embeddings = mda_embed + riskFactor_embed
+    ids = []
+    for i in range(len(mda_chunks)):
+        ids.append(f"{ticker_data['ticker']}-{accession}-mda-{i}")
+    for i in range(len(riskFactor_chunks)):
+        ids.append(f"{ticker_data['ticker']}-{accession}-riskfactors-{i}")
+    combined_metadata = mda_metadata + risk_factor_metadata
+
+
+    collection.add(
+        documents = combined_chunks,
+        ids = ids,
+        embeddings = combined_embeddings,
+        metadatas = combined_metadata
+    )
+    # Add this return statement
+    return {
+        "status": "success",
+        "ticker": ticker_data["ticker"],
+        "accession": accession,
+        "filing_date": filing_date,
+        "form": filing_form,
+        "mda_chunks_added": len(mda_chunks),
+        "risk_factor_chunks_added": len(riskFactor_chunks),
+        "total_chunks_added": len(combined_chunks),
+        "message": f"Successfully ingested {len(combined_chunks)} chunks into Chroma"
+    }

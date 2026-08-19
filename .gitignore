@@ -27,3 +27,4 @@ dist-ssr
 *.dylib
 backend/.venv/
 backend/.venv/
+backend/data
