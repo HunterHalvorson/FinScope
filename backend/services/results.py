@@ -78,3 +78,4 @@ def export_to_csv(filename="./data/filing_scores.csv"):
     df = get_all_scores_as_dataframe()
     df.to_csv(filename, index=False)
     print(f"Exported to {filename}")
+
