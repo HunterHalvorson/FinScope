@@ -11,13 +11,19 @@ from services.edgar import fetch_filing_document
 from services.text_extraction import extract_sections_from_filing
 from services.embeddings import embed_text, chunk_text
 import chromadb
+from services.sentiment import score_filing_sections
+from services.results import init_database, save_score_result
+from services.returns import get_forward_returns
 
 
 app = FastAPI()
+init_database()
 
 # The client is basically your connection/interface to Chroma.
 chroma_client = chromadb.PersistentClient(path="./data/chroma")
 collection = chroma_client.get_or_create_collection(name = 'filings')
+
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,14 +40,24 @@ with open('./data/tickers.json') as f:
     TICKERS = json.load(f)
 
 
-# @app.get('/filings/search')
-# def search_filings(ticker: str, query: str):
-#     results = collection.query(
-#         query_texts=[query],
-#         where={"ticker": ticker},
-#         n_results=5
-#     )
-#     return results
+@app.get('/results')
+def get_results(ticker: str):
+    from services.results import get_all_scores_as_dataframe
+    
+    df = get_all_scores_as_dataframe()
+    df_filtered = df[df['ticker'] == ticker]
+    
+    return df_filtered.to_dict(orient='records')
+
+
+@app.get('/filings/search')
+def search_filings(ticker: str, query: str):
+    results = collection.query(
+        query_texts=[query],
+        where={"ticker": ticker},
+        n_results=5
+    )
+    return results
 
 @app.get('/filings/{ticker}')
 def get_filings(ticker: str):
@@ -206,3 +222,65 @@ def injestion_pipeline(ticker: str, accession: str, primary_document: str):
         "total_chunks_added": len(combined_chunks),
         "message": f"Successfully ingested {len(combined_chunks)} chunks into Chroma"
     }
+
+@app.post('/filings/{ticker}/{accession}/score')
+def score(ticker: str, accession: str, primary_document: str):
+    ticker_data = load_and_return_ticker_data(TICKERS, ticker)
+    
+    cik = str(ticker_data['cik_str'])
+    
+    # Get the Filing metadata
+    padded_cik = cik.zfill(10)
+    
+    response = requests.get(f'https://data.sec.gov/submissions/CIK{padded_cik}.json',
+                                 headers={'User-Agent': os.environ['SEC_EDGAR_USER_AGENT']})
+    
+    response.raise_for_status()
+    
+    data = response.json()
+    recent = data['filings']['recent']
+    
+    filing_date = None
+    filing_form = None
+    
+    for form, date, accession_no in zip(
+            recent['form'],
+            recent['filingDate'],
+            recent['accessionNumber']
+    ):
+    
+        if accession_no == accession:
+    
+            filing_date = date
+            filing_form = form
+            break
+    
+    if filing_date is None:
+        raise HTTPException(status_code=404,detail="Filing not found")
+    
+    # Download filing
+    try:
+        raw_html = fetch_filing_document(cik, accession, primary_document)
+        sections = extract_sections_from_filing(raw_html)
+    
+    except Exception as e:
+        print(f"Error fetching filing: {e}")
+        raise HTTPException(status_code=500,detail=str(e))
+    
+    mda = sections['mda']
+    riskFactors = sections['riskFactors']
+
+    scores = score_filing_sections(mda, riskFactors)
+    forward_return = get_forward_returns(ticker, filing_date)
+    save_score_result(ticker_data, filing_date, filing_form, accession, scores, forward_return) 
+
+    return {
+        "status": "success",
+        "ticker": ticker_data["ticker"],
+        "accession": accession,
+        "filing_date": filing_date,
+        "form": filing_form,
+        "scores": scores,
+        "forward_return": forward_return
+    }
+
