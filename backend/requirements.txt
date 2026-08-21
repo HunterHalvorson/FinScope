@@ -6,10 +6,14 @@ pydantic
 beautifulsoup4
 sec-api
 langchain
+langchain-core
+langchain-openai
+langchain-chroma
+langchain-huggingface
 langchain-text-splitters
-sentence-transformers==3.4.1
 chromadb
 pandas
-ntlk
-sqlite3
+nltk
 yfinance
+matplotlib
+scikit-learn
