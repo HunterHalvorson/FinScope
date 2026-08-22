@@ -5,8 +5,12 @@ import '../pages/css/FilingDashboard.css'
 import LineChartComponent from '../components/LineChartComponent'
 import Modal from '../components/Modal'
 import ScatterChartComponenet from '../components/ScatterChartComponenet'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function FilingDashboard() {
+
+  const navigate = useNavigate()
 
   const { symbol } = useParams()
   const [filings, setFilings] = useState([])
@@ -59,6 +63,7 @@ function FilingDashboard() {
 
   return (
     <>
+      <button onClick={() => navigate('/ticker')}>Return</button>
       {modalActive && <Modal onClose={() => setModalActive(false)} filing = {selectedFiling}/>}
       <h1>{symbol}</h1>
       <div style={{ width: '100%', height: 400, marginBottom: 80 }}>

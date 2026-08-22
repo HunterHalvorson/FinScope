@@ -57,3 +57,8 @@ h1 {
   padding: 0 24px;
   margin-bottom: 80px;
 }
+
+button {
+  color: white;
+  margin: 10px;
+}
