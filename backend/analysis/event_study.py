@@ -2,9 +2,11 @@ import pandas as pd
 from services.results import get_all_scores_as_dataframe
 import matplotlib.pyplot as plt
 
-def get_event_study_data():
+def get_event_study_data(ticker):
 
   df = get_all_scores_as_dataframe()
+  df = df[df['ticker'] == ticker]
+  
   df['mda_sentiment'] = df['mda_positive'] - df['mda_negative']
   df['risk_sentiment'] = df['risk_positive'] - df['risk_negative']
 
@@ -13,19 +15,19 @@ def get_event_study_data():
   correlation_mda = analysis_df["mda_sentiment"].corr(analysis_df["forward_return"])
   correlation_risk = analysis_df["risk_sentiment"].corr(analysis_df["forward_return"])
 
-  print("Correlation_mda:", correlation_mda)
-  print("Correlation_risk:", correlation_risk)
+#   print("Correlation_mda:", correlation_mda)
+#   print("Correlation_risk:", correlation_risk)
 
-  plt.scatter(
-      analysis_df["mda_sentiment"],
-      analysis_df["forward_return"]
-  )
+#   plt.scatter(
+#       analysis_df["mda_sentiment"],
+#       analysis_df["forward_return"]
+#   )
 
-  plt.xlabel("MD&A Sentiment")
-  plt.ylabel("Forward Return")
-  plt.title("MD&A Sentiment vs Forward Stock Return")
+#   plt.xlabel("MD&A Sentiment")
+#   plt.ylabel("Forward Return")
+#   plt.title("MD&A Sentiment vs Forward Stock Return")
 
-  plt.show()
+#   plt.show()
 
   return {
         "mdaCorr": correlation_mda,

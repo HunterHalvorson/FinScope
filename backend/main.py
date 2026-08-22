@@ -80,10 +80,6 @@ with open("./data/tickers.json") as f:
     TICKERS = json.load(f)
 
 
-# --------------------------------------------------
-# GET RESULTS
-# --------------------------------------------------
-
 @app.get("/results")
 def get_results(ticker: str):
 
@@ -96,27 +92,9 @@ def get_results(ticker: str):
     return df_filtered.to_dict(orient="records")
 
 
-# --------------------------------------------------
-# SEARCH FILINGS
-# --------------------------------------------------
-
-@app.get("/filings/search")
-def search_filings(ticker: str, query: str):
-
-    # Chroma does not have an embedding function.
-    # Therefore, we manually create the query embedding.
-
-    query_embedding = embed_text([query])[0]
-
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        where={
-            "ticker": ticker
-        },
-        n_results=5
-    )
-
-    return results
+@app.get("/analysis/event-study/{ticker}")
+def event_study(ticker):
+    return get_event_study_data(ticker)
 
 
 # --------------------------------------------------
@@ -789,7 +767,3 @@ if __name__ == "__main__":
         port=8000,
         reload=True
     )
-
-@app.get("/analysis/event-study")
-def event_study():
-    return get_event_study_data()

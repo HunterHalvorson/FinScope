@@ -1,18 +1,17 @@
-import React from 'react'
+
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts'
-import mockData from '../data/mockData.json'
 
-function LineChartComponent({matchingTickerData}) {
+function LineChartComponent({matchingTickerData, ticker}) {
 
-  const chartData = matchingTickerData[0].filings
+  const chartData = matchingTickerData
     .slice()
-    .sort((a, b) => new Date(a.filingDate) - new Date(b.filingDate))
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
     .map(f => (
       {
-        date: f.filingDate,
-        positive: f.sentiment.positive,
-        negative: f.sentiment.negative,
-        uncertainty: f.sentiment.uncertainty,
+        date: f.date,
+        positive: f.positive,
+        negative: f.negative,
+        uncertainty: f.uncertainty,
         netSentiment: f.netSentiment
       }
     ));
@@ -24,7 +23,7 @@ function LineChartComponent({matchingTickerData}) {
           Sentiment Over Time
         </h3>
         <p style={{ margin: '4px 0 0', fontSize: 13, color: '#666' }}>
-          {matchingTickerData[0].ticker} — {chartData.length} filings
+          {ticker} — {chartData.length} filings
         </p>
       </div>
 

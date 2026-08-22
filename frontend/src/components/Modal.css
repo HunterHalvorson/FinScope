@@ -1,40 +1,94 @@
 .modal-container {
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   position: fixed;
   z-index: 30;
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .model-container-inner {
   width: 70%;
-  height: 40%;
-  background-color:rgba(146, 92, 196, 0.6);
-  border-radius: 5px;
-  text-align: center;
+  max-width: 600px;
+  height: auto;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.3), 0 0 50px rgba(139, 92, 246, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  gap: 24px;
   position: relative;
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.model-container-inner .esc{
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.model-container-inner .esc {
   position: absolute;
-  top: 0;
-  left: 0;
-  padding: 5px 15px;
-  background-color: rgba(246, 43, 43, 0.6);
-}
-
-.model-container-inner .esc:hover{
+  top: 16px;
+  right: 16px;
+  padding: 8px 12px;
+  background-color: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 6px;
+  color: #fca5a5;
+  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
-  background-color: rgba(246, 43, 43, 0.5);
+  transition: all 0.2s ease;
 }
 
-.model-container-inner span{
-  color: black;
-  font-weight: 900;
+.model-container-inner .esc:hover {
+  background-color: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.6);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.model-container-inner .esc:active {
+  transform: scale(0.95);
+}
+
+.model-container-inner span {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.model-container-inner h2 {
+  color: #f1f5f9;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.model-container-inner p {
+  color: #cbd5e1;
+  font-size: 14px;
+  margin: 0;
 }
